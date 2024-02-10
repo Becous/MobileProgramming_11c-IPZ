@@ -2,7 +2,6 @@
 
 package com.example.laba1
 
-import android.graphics.drawable.Icon
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,7 +18,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Devices
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.PestControl
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -38,8 +42,10 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -67,6 +73,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainWindow(modifier: Modifier = Modifier){
     val searchText by remember { mutableStateOf("") }
+    val iconWifi = Icons.Default.Wifi
+    val iconDevise = Icons.Default.Devices
+    val iconApp = Icons.Default.Apps
+    val iconNotifications = Icons.Default.Notifications
+    val iconPerson = Icons.Default.PestControl
+    val iconPhone = Icons.Default.Phone
+
+
+
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
@@ -91,6 +106,12 @@ fun MainWindow(modifier: Modifier = Modifier){
             modifier = Modifier.padding(start = 12.dp, bottom = 23.dp)
 
         )
+        ListTile(
+            title1 = "Get to know your Pixel",
+            disc = "Explore what you can do with your phone",
+            icon = iconPhone,
+            colorBackTile = Color(red = 219, blue = 141, green = 234)
+        )
         InputBox(
             text = searchText,
             onTextChange = { },
@@ -98,35 +119,80 @@ fun MainWindow(modifier: Modifier = Modifier){
                 // Handle search action
             }
         )
-        ListTile()
+        ListTile(
+            title1 = "Network & Internet",
+            disc = "Wi-Fi, Mobile, Data usage, Hotspot",
+            icon = iconWifi,
+            colorBackTile = Color.Transparent)
+        ListTile(
+            title1 = "Connected devices",
+            disc = "Bluetooth, Cast, NFC",
+            icon = iconDevise,
+            colorBackTile = Color.Transparent)
+        ListTile(
+            title1 = "App",
+            disc = "Permissions, default apps",
+            icon = iconApp,
+            colorBackTile = Color.Transparent)
+        ListTile(
+            title1 = "Notifications",
+             disc = "Permissions, default apps",
+             icon = iconNotifications,
+            colorBackTile = Color.Transparent)
+        ListTile(
+            title1 = "Digital well being",
+            disc = "Screen time, app timer, bedtime schedules",
+            icon = iconPerson,
+            colorBackTile = Color.Transparent
+            )
+
 
     }
 }
 
 @Composable
-fun ListTile(modifier: Modifier = Modifier) {
-    Box(modifier = Modifier
+fun ListTile(title1: String, disc: String, icon: ImageVector, colorBackTile: Color, modifier: Modifier = Modifier) {
+    Surface(modifier = Modifier
         .fillMaxWidth()
+        .padding(start = 25.dp, top = 20.dp, end = 25.dp, bottom = 20.dp)
+        .clip(RoundedCornerShape(50.dp))
     )
     {
-        Row(modifier = Modifier
-            .padding(start = 25.dp, top = 20.dp)
-            .background(color = Color.Green)
-            .clip(RoundedCornerShape(50.dp))
+        Row(
+            modifier = Modifier
+            .background(color = colorBackTile)
+                .padding(top = 22.dp, bottom = 23.dp, start = 16.dp, end = 16.dp)
         ){
             Box(
                 modifier = modifier
-                    .padding(all = 12.dp)
-                    .background(color = Color.Gray)
                     .clip(RoundedCornerShape(50.dp))
+                    .background(color = Color(red = 226, blue = 216, green = 227))
             ) {
                 Icon(
+                    imageVector = icon,
+                    tint = Color.Black,
+                    contentDescription = "Search",
+                    modifier = Modifier
+                        .padding(all = 12.dp)
 
-                    imageVector = Icons.Default.Wifi,
-                    contentDescription = "Search"
+                        .size(24.dp)
                 )
             }
-            Text(text = "Hello World")
+            Column(
+                modifier = Modifier
+                    .padding(start = 17.dp)
+            ) {
+                Text(
+                    text = title1,
+                    color = Color.Black,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                    )
+                Text(text = disc,
+                    color = Color.Black,
+                    fontSize = 14.sp,
+                )
+            }
         }
 
     }
@@ -142,7 +208,7 @@ fun ListTilePreview(modifier: Modifier = Modifier){
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun InputBox(
     text: String,
